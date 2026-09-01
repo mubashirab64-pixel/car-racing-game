@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Highway Car Racer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Dashboard / UI -->
+        <div class="hud">
+            <div class="score-board">Score: <span id="score">0</span></div>
+            <div class="speed-board">Speed: <span id="speed">0</span> km/h</div>
+            <div class="fuel-container">
+                Fuel: <div class="fuel-bar"><div id="fuel" style="width: 100%;"></div></div>
+            </div>
+        </div>
+
+        <!-- Game Canvas -->
+        <div id="gameTrack" class="game-track">
+            <div id="playerCar" class="car player-car">
+                <div class="car-body"></div>
+                <div class="wheel front-left"></div>
+                <div class="wheel front-right"></div>
+                <div class="wheel back-left"></div>
+                <div class="wheel back-right"></div>
+                <div class="headlight-left"></div>
+                <div class="headlight-right"></div>
+            </div>
+        </div>
+
+        <!-- Overlay Screens -->
+        <div id="startScreen" class="overlay">
+            <h1>TURBO RACER</h1>
+            <p>Use <b>Arrow Keys</b> or <b>A/D</b> to steer.<br>Use <b>W/Up</b> to accelerate.</p>
+            <p>Avoid enemy cars and pick up Fuel cans!</p>
+            <button id="startBtn">START GAME</button>
+        </div>
+
+        <div id="gameOverScreen" class="overlay hidden">
+            <h1>GAME OVER</h1>
+            <p>Final Score: <span id="finalScore">0</span></p>
+            <button id="restartBtn">RESTART</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

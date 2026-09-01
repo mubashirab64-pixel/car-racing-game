@@ -1,0 +1,170 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.game-container {
+    position: relative;
+    width: 400px;
+    height: 600px;
+    background-color: #333;
+    border: 4px solid #555;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 255, 200, 0.2);
+}
+
+/* Track & Animation */
+.game-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #3a3a3a;
+    background-image: 
+        linear-gradient(to right, transparent 49%, #fff 49%, #fff 51%, transparent 51%),
+        linear-gradient(to right, #ff0 0%, #ff0 100%),
+        linear-gradient(to right, #ff0 0%, #ff0 100%);
+    background-size: 100% 80px, 8px 100%, 8px 100%;
+    background-position: 0 0, 10px 0, 382px 0;
+    background-repeat: repeat-y, no-repeat, no-repeat;
+}
+
+.track-moving {
+    animation: moveRoad 0.4s linear infinite;
+}
+
+@keyframes moveRoad {
+    0% { background-position: 0 0, 10px 0, 382px 0; }
+    100% { background-position: 0 80px, 10px 0, 382px 0; }
+}
+
+/* Cars Styling */
+.car {
+    position: absolute;
+    width: 42px;
+    height: 70px;
+    border-radius: 8px;
+    z-index: 10;
+}
+
+.player-car {
+    background: #ff2a2a;
+    bottom: 20px;
+    left: 179px;
+    box-shadow: 0 0 10px #ff2a2a;
+    transition: left 0.05s linear;
+}
+
+.car-body {
+    position: absolute;
+    top: 15px;
+    left: 4px;
+    width: 34px;
+    height: 40px;
+    background: #111;
+    border-radius: 4px;
+}
+
+.headlight-left, .headlight-right {
+    position: absolute;
+    top: -4px;
+    width: 8px;
+    height: 6px;
+    background: #fff;
+    box-shadow: 0 -10px 15px 5px rgba(255, 255, 255, 0.8);
+}
+.headlight-left { left: 4px; }
+.headlight-right { right: 4px; }
+
+.enemy-car {
+    background: #2a75ff;
+    box-shadow: 0 0 8px #2a75ff;
+}
+
+.fuel-item {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: #00ff66;
+    border-radius: 4px;
+    border: 2px solid #fff;
+    box-shadow: 0 0 10px #00ff66;
+    z-index: 9;
+}
+
+/* HUD elements */
+.hud {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    font-weight: bold;
+    z-index: 20;
+    background: rgba(0,0,0,0.6);
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.fuel-bar {
+    display: inline-block;
+    width: 60px;
+    height: 10px;
+    background: #555;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#fuel {
+    height: 100%;
+    background: #00ff66;
+}
+
+/* Overlays */
+.overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    z-index: 30;
+}
+
+.overlay h1 { font-size: 2.2rem; color: #ff2a2a; margin-bottom: 15px; }
+.overlay p { margin-bottom: 15px; font-size: 0.95rem; line-height: 1.4; color: #ccc; }
+
+button {
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background: #ff2a2a;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 42, 42, 0.6);
+    transition: transform 0.2s;
+}
+
+button:hover { transform: scale(1.05); }
+.hidden { display: none !important; }
