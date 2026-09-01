@@ -2,47 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Highway Car Racer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MUBASHIR RACER</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="game-container">
-        <!-- Dashboard / UI -->
+        <!-- HUD -->
         <div class="hud">
-            <div class="score-board">Score: <span id="score">0</span></div>
-            <div class="speed-board">Speed: <span id="speed">0</span> km/h</div>
-            <div class="fuel-container">
-                Fuel: <div class="fuel-bar"><div id="fuel" style="width: 100%;"></div></div>
+            <div class="hud-item">
+                <span class="hud-label">SCORE</span>
+                <span id="score" class="hud-value">0</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">SPEED</span>
+                <span id="speed" class="hud-value">0</span>
+                <span class="unit">km/h</span>
+            </div>
+            <div class="hud-item fuel-hud">
+                <span class="hud-label">FUEL</span>
+                <div class="fuel-bar">
+                    <div id="fuel" class="fuel-fill"></div>
+                </div>
             </div>
         </div>
 
-        <!-- Game Canvas -->
+        <!-- Game Track -->
         <div id="gameTrack" class="game-track">
+            <div class="road-side left"></div>
+            <div class="road-side right"></div>
             <div id="playerCar" class="car player-car">
+                <div class="car-roof"></div>
+                <div class="car-window"></div>
                 <div class="car-body"></div>
                 <div class="wheel front-left"></div>
                 <div class="wheel front-right"></div>
                 <div class="wheel back-left"></div>
                 <div class="wheel back-right"></div>
-                <div class="headlight-left"></div>
-                <div class="headlight-right"></div>
+                <div class="headlight left"></div>
+                <div class="headlight right"></div>
+                <div class="taillight left"></div>
+                <div class="taillight right"></div>
+                <div class="spoiler"></div>
+                <div class="exhaust"></div>
             </div>
         </div>
 
-        <!-- Overlay Screens -->
+        <!-- Start Screen -->
         <div id="startScreen" class="overlay">
-            <h1>TURBO RACER</h1>
-            <p>Use <b>Arrow Keys</b> or <b>A/D</b> to steer.<br>Use <b>W/Up</b> to accelerate.</p>
-            <p>Avoid enemy cars and pick up Fuel cans!</p>
-            <button id="startBtn">START GAME</button>
+            <div class="title-glow">
+                <h1>MUBASHIR</h1>
+                <h2>RACER</h2>
+            </div>
+            <p class="tagline">High Speed • Endless Thrill</p>
+            <div class="controls-info">
+                <p>← → or A / D to Steer</p>
+                <p>↑ or W to Boost</p>
+                <p>Collect ⛽ Fuel • Dodge Enemies</p>
+            </div>
+            <button id="startBtn" class="neon-btn">START ENGINE</button>
+            <p class="credit">Driver: Mubashir</p>
         </div>
 
+        <!-- Game Over Screen -->
         <div id="gameOverScreen" class="overlay hidden">
-            <h1>GAME OVER</h1>
-            <p>Final Score: <span id="finalScore">0</span></p>
-            <button id="restartBtn">RESTART</button>
+            <h1 class="go-title">CRASHED!</h1>
+            <p class="final-label">FINAL SCORE</p>
+            <p id="finalScore" class="final-score">0</p>
+            <p id="highScoreText" class="high-score">Best: 0</p>
+            <button id="restartBtn" class="neon-btn">RACE AGAIN</button>
         </div>
+
+        <!-- Pickup / Hit Feedback -->
+        <div id="feedback" class="feedback hidden"></div>
     </div>
 
     <script src="script.js"></script>
