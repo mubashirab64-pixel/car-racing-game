@@ -9,9 +9,8 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Copy Files directly to Nginx Root
+      - name: Pull latest changes directly to web root
         run: |
-          cp -r ./* /var/www/car-game/
+          cd /var/www/car-game
+          git fetch origin main
+          git reset --hard origin/main
