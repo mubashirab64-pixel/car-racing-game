@@ -9,8 +9,8 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - name: Pull latest changes directly to web root
+      - name: Sync directly to web root
         run: |
-          cd /var/www/car-game
-          git fetch origin main
-          git reset --hard origin/main
+          git config --global --add safe.directory /var/www/car-game
+          git -C /var/www/car-game fetch origin main
+          git -C /var/www/car-game reset --hard origin/main
