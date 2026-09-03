@@ -1,4 +1,4 @@
-name: Deploy Car Game to Local Ubuntu Server
+name: Deploy Car Game to Local Server
 
 on:
   push:
@@ -8,13 +8,11 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted
-
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Deploy to Nginx Web Root
+      - name: Copy Files to Web Root
         run: |
-          echo "Deploying code to local Nginx server..."
-          cp -r index.html style.css script.js /var/www/html/
-          echo "Deployment Completed Successfully!"
+          cp -r ./* /var/www/car-game/
+          sudo chmod -R 755 /var/www/car-game

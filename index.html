@@ -1,82 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MUBASHIR RACER</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MUBASHIR GAMER - Karachi Streets</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <!-- HUD -->
-        <div class="hud">
-            <div class="hud-item">
-                <span class="hud-label">SCORE</span>
-                <span id="score" class="hud-value">0</span>
-            </div>
-            <div class="hud-item">
-                <span class="hud-label">SPEED</span>
-                <span id="speed" class="hud-value">0</span>
-                <span class="unit">km/h</span>
-            </div>
-            <div class="hud-item fuel-hud">
-                <span class="hud-label">FUEL</span>
-                <div class="fuel-bar">
-                    <div id="fuel" class="fuel-fill"></div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Game Track -->
-        <div id="gameTrack" class="game-track">
-            <div class="road-side left"></div>
-            <div class="road-side right"></div>
-            <div id="playerCar" class="car player-car">
-                <div class="car-roof"></div>
-                <div class="car-window"></div>
-                <div class="car-body"></div>
-                <div class="wheel front-left"></div>
-                <div class="wheel front-right"></div>
-                <div class="wheel back-left"></div>
-                <div class="wheel back-right"></div>
-                <div class="headlight left"></div>
-                <div class="headlight right"></div>
-                <div class="taillight left"></div>
-                <div class="taillight right"></div>
-                <div class="spoiler"></div>
-                <div class="exhaust"></div>
-            </div>
-        </div>
+<div class="stage" id="stage">
+  <canvas id="gameCanvas" width="900" height="600"></canvas>
 
-        <!-- Start Screen -->
-        <div id="startScreen" class="overlay">
-            <div class="title-glow">
-                <h1>MUBASHIR</h1>
-                <h2>RACER</h2>
-            </div>
-            <p class="tagline">High Speed • Endless Thrill</p>
-            <div class="controls-info">
-                <p>← → or A / D to Steer</p>
-                <p>↑ or W to Boost</p>
-                <p>Collect ⛽ Fuel • Dodge Enemies</p>
-            </div>
-            <button id="startBtn" class="neon-btn">START ENGINE</button>
-            <p class="credit">Driver: Mubashir</p>
-        </div>
-
-        <!-- Game Over Screen -->
-        <div id="gameOverScreen" class="overlay hidden">
-            <h1 class="go-title">CRASHED!</h1>
-            <p class="final-label">FINAL SCORE</p>
-            <p id="finalScore" class="final-score">0</p>
-            <p id="highScoreText" class="high-score">Best: 0</p>
-            <button id="restartBtn" class="neon-btn">RACE AGAIN</button>
-        </div>
-
-        <!-- Pickup / Hit Feedback -->
-        <div id="feedback" class="feedback hidden"></div>
+  <!-- HUD -->
+  <div class="hud" id="hud">
+    <div class="level-badge" id="levelBadge">LEVEL 1</div>
+    <div class="hud-top">
+      <div class="hud-box">SCORE <b id="scoreVal">0</b><br>CASH $<b id="cashVal">0</b></div>
+      <div class="hud-box wanted" id="wantedStars">☆☆☆☆☆</div>
     </div>
+    <div class="health-wrap">
+      <div class="health-label">HEALTH</div>
+      <div class="health-outer"><div class="health-inner" id="healthBar"></div></div>
+    </div>
+    <button class="pause-btn" id="pauseBtn">II PAUSE</button>
+  </div>
 
-    <script src="script.js"></script>
+  <!-- On-screen controls -->
+  <div class="dpad" id="dpad">
+    <div class="dpad-group">
+      <button id="btn-up">▲</button>
+      <button id="btn-left">◀</button>
+      <button id="btn-down">▼</button>
+      <button id="btn-right">▶</button>
+    </div>
+    <div class="gas-group">
+      <button id="btn-gas">GAS</button>
+      <button id="btn-brake">BRK</button>
+    </div>
+  </div>
+
+  <!-- START SCREEN -->
+  <div class="screen" id="screen-start">
+    <h1 class="brand"><span class="b1">MUBASHIR</span><span class="b2">GAMER</span></h1>
+    <div class="tagline">KARACHI STREETS &mdash; Har level naya challenge, har cop tumhare peeche!</div>
+    <div class="divider"></div>
+    <button class="btn" id="btn-start">GAME SHURU KARO</button>
+    <div class="controls-hint">
+      Keyboard: <b>W/↑</b> Gas &nbsp; <b>S/↓</b> Reverse &nbsp; <b>A/←</b> Left &nbsp; <b>D/→</b> Right &nbsp; <b>P</b> Pause<br>
+      Mobile: neeche diye gaye buttons use karo. Goal tak pohncho, cops se bacho!
+    </div>
+  </div>
+
+  <!-- LEVEL COMPLETE -->
+  <div class="screen hidden" id="screen-levelcomplete">
+    <div class="stamp clear">LEVEL CLEAR!</div>
+    <div class="result-line" id="lcBreakdown">Coins + Time Bonus</div>
+    <div class="score-line">TOTAL SCORE: <span id="lcScore">0</span></div>
+    <button class="btn" id="btn-next">AGLA LEVEL &raquo;</button>
+  </div>
+
+  <!-- WASTED -->
+  <div class="screen hidden" id="screen-wasted">
+    <div class="stamp wasted">💥 WASTED 💥</div>
+    <div class="result-line">Tumhari gaari tabah ho gayi, bhai! Dobara try karo.</div>
+    <div class="score-line">SCORE: <span id="wastedScore">0</span></div>
+    <button class="btn" id="btn-retry-wasted">DOBARA KOSHISH KARO</button>
+    <button class="btn secondary" id="btn-menu-wasted">MAIN MENU</button>
+  </div>
+
+  <!-- BUSTED -->
+  <div class="screen hidden" id="screen-busted">
+    <div class="stamp busted">🚔 BUSTED 🚔</div>
+    <div class="result-line">Wanted level max ho gaya, police ne pakad liya!</div>
+    <div class="score-line">SCORE: <span id="bustedScore">0</span></div>
+    <button class="btn" id="btn-retry-busted">DOBARA KOSHISH KARO</button>
+    <button class="btn secondary" id="btn-menu-busted">MAIN MENU</button>
+  </div>
+
+  <!-- WIN -->
+  <div class="screen hidden" id="screen-win">
+    <div class="stamp win">🏆 TUM HO ASLI MUBASHIR GAMER! 🏆</div>
+    <div class="result-line">Karachi ki saari sadkein aaj tumhari hain.</div>
+    <div class="score-line">FINAL SCORE: <span id="winScore">0</span></div>
+    <button class="btn" id="btn-playagain">PHIR SE KHELO</button>
+  </div>
+
+  <!-- PAUSED -->
+  <div class="screen hidden" id="screen-paused">
+    <div class="stamp">PAUSED</div>
+    <button class="btn" id="btn-resume">RESUME</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
