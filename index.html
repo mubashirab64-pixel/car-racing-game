@@ -1,97 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MUBASHIR GAMER - Karachi Streets</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Neon Street Racer</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="stage" id="stage">
-  <canvas id="gameCanvas" width="900" height="600"></canvas>
+    <!-- 3D GAME -->
+    <div id="game-container"></div>
 
-  <!-- HUD -->
-  <div class="hud" id="hud">
-    <div class="level-badge" id="levelBadge">LEVEL 1</div>
-    <div class="hud-top">
-      <div class="hud-box">SCORE <b id="scoreVal">0</b><br>CASH $<b id="cashVal">0</b></div>
-      <div class="hud-box wanted" id="wantedStars">☆☆☆☆☆</div>
+    <!-- HUD -->
+    <div id="hud">
+
+        <div class="top-left">
+            <div class="hud-label">POSITION</div>
+            <div class="hud-value">1<span>/6</span></div>
+        </div>
+
+        <div class="race-info">
+            <div class="hud-label">LAP</div>
+            <div id="lap" class="hud-value">1<span>/2</span></div>
+        </div>
+
+        <div class="timer">
+            <div class="hud-label">TIME</div>
+            <div id="timer" class="hud-value">00:00.00</div>
+        </div>
+
+        <!-- Nitro -->
+        <div class="nitro-box">
+            <div class="nitro-title">NITRO</div>
+
+            <div class="nitro-bar">
+                <div id="nitro-fill"></div>
+            </div>
+
+            <div id="nitro-percent">100%</div>
+        </div>
+
+        <!-- Speedometer -->
+        <div class="speedometer">
+
+            <div class="speed-value">
+                <span id="speed">0</span>
+                <small>KM/H</small>
+            </div>
+
+            <div class="gear">
+                GEAR
+                <strong id="gear">N</strong>
+            </div>
+
+            <div class="rpm-container">
+                <div class="rpm-bar">
+                    <div id="rpm-fill"></div>
+                </div>
+                <span>RPM</span>
+            </div>
+
+        </div>
+
     </div>
-    <div class="health-wrap">
-      <div class="health-label">HEALTH</div>
-      <div class="health-outer"><div class="health-inner" id="healthBar"></div></div>
+
+    <!-- START SCREEN -->
+    <div id="start-screen">
+
+        <div class="logo">
+            NEON
+            <strong>STREET</strong>
+            RACER
+        </div>
+
+        <p>ARCADE STREET RACING</p>
+
+        <button id="start-btn">
+            START RACE
+        </button>
+
+        <div class="controls">
+            <span>W / ↑</span> ACCELERATE
+            <span>S / ↓</span> BRAKE
+            <span>A / ←</span> LEFT
+            <span>D / →</span> RIGHT
+            <span>SPACE</span> DRIFT
+            <span>SHIFT</span> NITRO
+            <span>R</span> RESET
+            <span>ESC</span> PAUSE
+        </div>
+
     </div>
-    <button class="pause-btn" id="pauseBtn">II PAUSE</button>
-  </div>
 
-  <!-- On-screen controls -->
-  <div class="dpad" id="dpad">
-    <div class="dpad-group">
-      <button id="btn-up">▲</button>
-      <button id="btn-left">◀</button>
-      <button id="btn-down">▼</button>
-      <button id="btn-right">▶</button>
+    <!-- COUNTDOWN -->
+    <div id="countdown"></div>
+
+    <!-- PAUSE -->
+    <div id="pause-menu">
+
+        <h1>PAUSED</h1>
+
+        <button id="resume-btn">
+            RESUME
+        </button>
+
+        <button id="restart-btn">
+            RESTART
+        </button>
+
     </div>
-    <div class="gas-group">
-      <button id="btn-gas">GAS</button>
-      <button id="btn-brake">BRK</button>
-    </div>
-  </div>
 
-  <!-- START SCREEN -->
-  <div class="screen" id="screen-start">
-    <h1 class="brand"><span class="b1">MUBASHIR</span><span class="b2">GAMER</span></h1>
-    <div class="tagline">KARACHI STREETS &mdash; Har level naya challenge, har cop tumhare peeche!</div>
-    <div class="divider"></div>
-    <button class="btn" id="btn-start">GAME SHURU KARO</button>
-    <div class="controls-hint">
-      Keyboard: <b>W/↑</b> Gas &nbsp; <b>S/↓</b> Reverse &nbsp; <b>A/←</b> Left &nbsp; <b>D/→</b> Right &nbsp; <b>P</b> Pause<br>
-      Mobile: neeche diye gaye buttons use karo. Goal tak pohncho, cops se bacho!
-    </div>
-  </div>
 
-  <!-- LEVEL COMPLETE -->
-  <div class="screen hidden" id="screen-levelcomplete">
-    <div class="stamp clear">LEVEL CLEAR!</div>
-    <div class="result-line" id="lcBreakdown">Coins + Time Bonus</div>
-    <div class="score-line">TOTAL SCORE: <span id="lcScore">0</span></div>
-    <button class="btn" id="btn-next">AGLA LEVEL &raquo;</button>
-  </div>
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
-  <!-- WASTED -->
-  <div class="screen hidden" id="screen-wasted">
-    <div class="stamp wasted">💥 WASTED 💥</div>
-    <div class="result-line">Tumhari gaari tabah ho gayi, bhai! Dobara try karo.</div>
-    <div class="score-line">SCORE: <span id="wastedScore">0</span></div>
-    <button class="btn" id="btn-retry-wasted">DOBARA KOSHISH KARO</button>
-    <button class="btn secondary" id="btn-menu-wasted">MAIN MENU</button>
-  </div>
+    <!-- Game -->
+    <script src="script.js"></script>
 
-  <!-- BUSTED -->
-  <div class="screen hidden" id="screen-busted">
-    <div class="stamp busted">🚔 BUSTED 🚔</div>
-    <div class="result-line">Wanted level max ho gaya, police ne pakad liya!</div>
-    <div class="score-line">SCORE: <span id="bustedScore">0</span></div>
-    <button class="btn" id="btn-retry-busted">DOBARA KOSHISH KARO</button>
-    <button class="btn secondary" id="btn-menu-busted">MAIN MENU</button>
-  </div>
-
-  <!-- WIN -->
-  <div class="screen hidden" id="screen-win">
-    <div class="stamp win">🏆 TUM HO ASLI MUBASHIR GAMER! 🏆</div>
-    <div class="result-line">Karachi ki saari sadkein aaj tumhari hain.</div>
-    <div class="score-line">FINAL SCORE: <span id="winScore">0</span></div>
-    <button class="btn" id="btn-playagain">PHIR SE KHELO</button>
-  </div>
-
-  <!-- PAUSED -->
-  <div class="screen hidden" id="screen-paused">
-    <div class="stamp">PAUSED</div>
-    <button class="btn" id="btn-resume">RESUME</button>
-  </div>
-</div>
-
-<script src="script.js"></script>
 </body>
 </html>
