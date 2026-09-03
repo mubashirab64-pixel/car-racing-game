@@ -12,7 +12,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Sync Files to Nginx Root
+      - name: Copy Files directly to Nginx Root
         run: |
-          rsync -av --exclude='actions-runner' --exclude='.git' ./ /var/www/car-game/
-          sudo chmod -R 755 /var/www/car-game
+          cp -r ./* /var/www/car-game/
