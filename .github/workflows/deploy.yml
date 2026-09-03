@@ -1,4 +1,4 @@
-name: Deploy Car Game to Local Server
+name: Auto Deploy to Ubuntu Server
 
 on:
   push:
@@ -9,10 +9,10 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Copy Files to Web Root
+      - name: Sync Files to Nginx Root
         run: |
-          cp -r ./* /var/www/car-game/
+          rsync -av --exclude='actions-runner' --exclude='.git' ./ /var/www/car-game/
           sudo chmod -R 755 /var/www/car-game
